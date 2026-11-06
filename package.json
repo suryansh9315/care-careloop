@@ -1,0 +1,50 @@
+{
+  "name": "careloop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Voice-AI pre-visit check-ins that produce clinician-reviewable, coded FHIR CarePlans.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/bridge/server.ts",
+    "start": "node dist/src/bridge/server.js",
+    "seed": "tsx src/scripts/seed.ts",
+    "simulate": "tsx src/scripts/simulate.ts",
+    "moss:index": "tsx src/scripts/moss-index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "web:dev": "npm --prefix web run dev",
+    "web:build": "npm --prefix web run build",
+    "doctor": "tsx src/scripts/doctor.ts",
+    "demo:history": "tsx src/scripts/demo-history.ts",
+    "demo:call": "tsx src/scripts/demo-call.ts",
+    "reset": "tsx src/scripts/reset.ts",
+    "update-phones": "tsx src/scripts/update-phones.ts",
+    "bridge": "tsx watch src/bridge/server.ts"
+  },
+  "dependencies": {
+    "@medplum/core": "^3.2.9",
+    "@medplum/fhirtypes": "^3.2.9",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pino": "^9.3.2",
+    "twilio": "^5.3.0",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.0",
+    "@types/ws": "^8.5.12",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "optionalDependencies": {
+    "@moss-dev/moss": "^1.4.1"
+  }
+}

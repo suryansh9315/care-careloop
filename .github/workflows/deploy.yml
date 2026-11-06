@@ -1,0 +1,79 @@
+name: Deploy bridge to EC2
+
+on:
+  push:
+    branches: [main]
+
+# One deploy at a time; a queued push waits rather than racing the swap.
+concurrency:
+  group: deploy-bridge
+  cancel-in-progress: false
+
+permissions:
+  id-token: write # OIDC federation into AWS
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  INSTANCE_ID: i-08ada1dcbaac07407
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assume deploy role via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::006215409341:role/careloop-github-deploy
+          aws-region: us-east-1
+
+      - name: Deploy via SSM RunCommand
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # The instance clones with the job's ephemeral GITHUB_TOKEN (revoked
+          # when this job ends), builds in a staging dir, and only swaps the
+          # live tree after a successful build. The old tree stays at
+          # /opt/careloop.old as an instant rollback.
+          cat > /tmp/remote.sh <<EOF
+          #!/bin/bash
+          set -eu
+          rm -rf /opt/careloop.new
+          git clone --depth 1 --branch main 'https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git' /opt/careloop.new
+          cd /opt/careloop.new
+          git remote set-url origin 'https://github.com/${GITHUB_REPOSITORY}.git'
+          npm ci --no-audit --no-fund
+          npm run build
+          aws ssm get-parameter --name /careloop/bridge-env --with-decryption --region ${AWS_REGION} \
+            --query Parameter.Value --output text > /opt/careloop.new/.env
+          chmod 600 /opt/careloop.new/.env
+          chown -R careloop:careloop /opt/careloop.new
+          systemctl stop careloop-bridge
+          rm -rf /opt/careloop.old
+          mv /opt/careloop /opt/careloop.old
+          mv /opt/careloop.new /opt/careloop
+          systemctl start careloop-bridge
+          sleep 4
+          systemctl is-active careloop-bridge
+          curl -sf http://localhost:3000/health
+          EOF
+          jq -n --rawfile s /tmp/remote.sh '{commands: [$s], executionTimeout: ["900"]}' > /tmp/params.json
+          CMD=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name AWS-RunShellScript \
+            --comment "deploy ${GITHUB_SHA::7}" \
+            --parameters file:///tmp/params.json \
+            --query 'Command.CommandId' --output text)
+          echo "command: $CMD"
+          for i in $(seq 1 60); do
+            STATUS=$(aws ssm get-command-invocation --command-id "$CMD" --instance-id "$INSTANCE_ID" \
+              --query Status --output text 2>/dev/null || echo Pending)
+            case "$STATUS" in Success|Failed|Cancelled|TimedOut|DeliveryTimedOut) break ;; esac
+            sleep 10
+          done
+          echo "status: $STATUS"
+          aws ssm get-command-invocation --command-id "$CMD" --instance-id "$INSTANCE_ID" \
+            --query StandardOutputContent --output text
+          aws ssm get-command-invocation --command-id "$CMD" --instance-id "$INSTANCE_ID" \
+            --query StandardErrorContent --output text >&2
+          [ "$STATUS" = "Success" ]

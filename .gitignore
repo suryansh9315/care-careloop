@@ -1,0 +1,26 @@
+# Never commit real credentials — see .env.example
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+node_modules/
+dist/
+web/dist/
+web/node_modules/
+coverage/
+
+# Terraform state can contain secrets
+deploy/terraform/.terraform/
+deploy/terraform/*.tfstate
+deploy/terraform/*.tfstate.*
+deploy/terraform/*.tfvars
+!deploy/terraform/*.tfvars.example
+
+.DS_Store
+*.log
+npm-debug.log*
+.vscode/
+.idea/
+web/tsconfig.tsbuildinfo
