@@ -53,11 +53,15 @@ weight; it is kept so the port stays auditable.
 
 ## Status
 
-**Phases 1 and 2 complete.** The deterministic clinical core is ported to Python and the backend
-plugin is live inside CARE: settings, facility-scoped permissions, five migrated tables, a
-client-safe `config/` endpoint and ORM-based patient-context reads. **49 tests green**, including a
-replay of all 363 frozen cases from the TypeScript original. Phase 0 is done bar one item: a Sarvam
-telephony connection still needs Twilio credentials. Details in `docs/spike-results.md`.
+**The whole backend clinical path works.** Phases 1, 2, 3 and 5 are complete: the deterministic
+core is ported to Python, the plugin is live inside CARE, the instruments are registered as CARE
+questionnaires, and the approval transaction writes coded observations, a medication proposal and a
+clinical note — or refuses and writes nothing. **76 tests green**, including a replay of all 363
+frozen cases from the TypeScript original.
+
+Remaining: Phase 4 (the Sarvam agent, hooks and webhook) and Phase 6 (the `care_fe` review UI).
+Phase 4's real call is blocked on one item — a Sarvam telephony connection needs Twilio
+credentials. Details in `docs/spike-results.md`.
 
 ```bash
 # from the scaffold workspace

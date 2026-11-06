@@ -445,8 +445,40 @@ One atomic operation in the clinician's auth context: ensure `Encounter` (class 
 submit → `MedicationRequest` as `status: draft` / `intent: proposal` with the clinician-bound
 product → clinical note → draft marked approved.
 
-**Gate 5:** approval writes all five artifacts or none; an unacknowledged critical safety flag
-**blocks** approval; rejection writes nothing to the chart.
+**Gate 5: PASSED.** Verified against the running workspace with a worst-case draft (ACT 5,
+`very-poor`, urgent step, three proposals, two critical risk findings — one of them driven by
+*"about four canisters"* parsing to 4, so the spoken-number path drove a critical safety decision
+end to end):
+
+```
+1. approve WITHOUT acknowledging the critical finding
+   refused: This draft has a critical finding that has not been acknowledged…
+   observations so far: 0            ← nothing partially applied
+2. clinician accepts two proposals, binds a product for only ONE
+   medication_requests            ['7ba4daca…']
+   medications_skipped_unbound    ['Albuterol sulfate 90 mcg/actuation inhaler']
+   observations written           6
+   total obs provenance           careloop-agent
+   medication requests            1 [('draft', 'proposal')]
+   note written                   True
+   gap closed                     True
+   status approved | approver: care-admin
+3. re-approving an approved draft
+   refused: ApprovalStateError
+```
+
+Four refusals all hold: an unacknowledged critical finding blocks and leaves **zero** observations;
+an accepted-but-**unbound** proposal is skipped and reported rather than guessed at (C2); double
+approval is refused; rejection requires a reason and writes nothing.
+
+Medication requests land as `status="draft"` / `intent="proposal"`, **not** active orders. A
+care-gap phone call plus a queue sign-off is a proposal *for* the prescriber; promoting it to an
+order is a separate deliberate act in CARE's own prescribing UI.
+
+The approval gate itself is pinned by `tests/test_approval_gating.py` (15 tests), including that a
+malformed finding cannot crash the gate — an exception there would turn a clinical review into a
+500 instead of a decision — and that the clinical note discloses the answers were collected by an
+automated agent rather than reading as if a person took the history.
 
 ### Phase 6 — Frontend plugin
 
