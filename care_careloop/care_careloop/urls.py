@@ -14,6 +14,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from care_careloop.viewsets.config import ConfigView
+from care_careloop.viewsets.review import CheckInDraftViewSet
 from care_careloop.viewsets.hooks import (
     OnEndView,
     OnStartView,
@@ -22,6 +23,7 @@ from care_careloop.viewsets.hooks import (
 from care_careloop.viewsets.webhook import SarvamWebhookView
 
 router = DefaultRouter()
+router.register("drafts", CheckInDraftViewSet, basename="careloop-draft")
 
 urlpatterns = [
     *router.urls,
