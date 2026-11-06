@@ -401,10 +401,29 @@ question carries a `formula`, and we deliberately score in Python instead, so th
 questionnaire needs a sixth question coded `82668-5` (ACT) / `44261-6` (PHQ-9) whose answer is the
 total our core computed. Without it the care-gap detector can never see a completed check-in.
 
-**Gate 3:** a synthetic submission yields the expected `Observation` set with correct codes and
-`data_entered_by`, **including the total-score observation**, and re-running the gap detector on
-that patient afterwards returns `False`. That second assertion is the one that proves the loop
-closes.
+**Gate 3: PASSED.** Verified end to end against the running workspace:
+
+```
+patient ef7fb43b…   gap before: True | No recorded Asthma Control Test (ACT) result.
+scored: 14 poor - Poorly controlled          ← by the Python core, not the agent
+observations: 6
+   82668-5 = 14 | data_entered_by = careloop-agent      ← the total
+   82669-3 = 5  | data_entered_by = careloop-agent
+   82670-1 = 2  | …   82671-9 = 3   82672-7 = 2   82673-5 = 2
+gap closes after submission: True | ACT recorded 2026-11-06 (14).
+context now sees last score: ScoreHistoryEntry(date='2026-11-06', total=14)
+```
+
+All three assertions hold: the total-score observation is written, every row is attributed to the
+**service account** rather than a clinician, and the gap detector returns `False` afterwards — the
+loop closes, so a campaign will not re-dial. The context reader also now surfaces the prior score,
+which is what lets the next call open with "last time your score was 14".
+
+Pinned by `tests/test_questionnaire_spec.py` (16 tests): `subject_type == "encounter"`, the
+total-score question exists and is coded, the total code is never reused by an item, the corrected
+ACT item codes, every question is an observation, items are **not** required (a patient may decline
+one without losing the whole submission), and question ids are deterministic `uuid5` derivations so
+re-registration cannot orphan stored responses.
 
 ### Phase 4 — Sarvam agent, hooks, webhook
 

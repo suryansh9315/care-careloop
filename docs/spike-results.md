@@ -202,3 +202,40 @@ user.
 available. Full test needs a telephony connection (V5) to place a real call. Remember the webhook
 URL changes whenever the tunnel restarts — re-apply the agent config from the spec rather than
 hardcoding it.
+
+
+---
+
+## Phase 3 write path — verified in the workspace
+
+`manage.py careloop_setup` is idempotent and registers both instruments:
+
+| Questionnaire | subject_type | Questions | LOINC codes |
+| --- | --- | --- | --- |
+| `careloop-asthma` | `encounter` | 6 (5 items + total) | 82669-3, 82670-1, 82671-9, 82672-7, 82673-5, **82668-5** |
+| `careloop-depression` | `encounter` | 10 (9 items + total) | 44250-9, 44255-8, 44259-0, 44254-1, 44251-7, 44258-2, 44252-5, 44253-3, 44260-8, **44261-6** |
+
+The questionnaires attach to an `Organization` (defaulting to the first `govt` one — Kerala in the
+fixtures). Creating the `QuestionnaireOrganization` row is what populates
+`Questionnaire.organization_cache`, and that cache is what makes the questionnaire visible to
+non-superusers via `get_filtered_questionnaires`. Creating the questionnaire by ORM without it
+would leave it invisible.
+
+### Service account
+
+`careloop-agent`, `is_service_account=True`, with an unusable password — there is no credential to
+leak, and nothing authenticates as it over HTTP; it is only passed in-process to CARE's service
+layer.
+
+It is granted the **`Staff`** role in the facility's **root** `FacilityOrganization`. Staff is the
+least-privileged role carrying `can_submit_encounter_questionnaire`. Granting per facility is also
+the scoping mechanism: the agent can only record answers for facilities it has been added to.
+Without the grant, submission fails with "Permission Denied to submit patient questionnaire" — the
+failure spike V2 hit before taking a superuser shortcut. `find_roles_on_patient` resolves roles
+through the encounter's `facility_organization_cache`, the patient's `organization_cache`, or a
+direct `PatientUser` row; a global permission is not enough.
+
+### Gate 3 result
+
+6 observations written, the total among them, all `data_entered_by = careloop-agent`, and
+`has_open_care_gap` flips to `False` afterwards. Full output in `docs/REVAMP-PLAN.md` §8 Phase 3.
