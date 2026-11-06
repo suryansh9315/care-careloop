@@ -1,0 +1,33 @@
+# Registers care_careloop through core's ADDITIONAL_PLUGS. No core file is edited.
+#
+# The empty *build* arg stops Docker trying to install an unpublished host path at
+# build time; the *runtime* environment registers the bind-mounted plugin, and both
+# entrypoints reinstall it editable on every container start (core's
+# install_plugins.py performs an ordinary, non-editable install on its own).
+services:
+  backend:
+    build:
+      args:
+        ADDITIONAL_PLUGS: ""
+    environment: &plugin_environment
+      ADDITIONAL_PLUGS: >-
+        [{"name":"care_careloop","package_name":"/plugins/care_careloop","version":"","configs":{"CARELOOP_ENABLED":true}}]
+    volumes:
+      - &plugin_mount
+        type: bind
+        source: ${PLUGIN_BE:?Set PLUGIN_BE in .agent/paths.env}
+        target: /plugins/care_careloop
+        bind:
+          create_host_path: false
+    entrypoint:
+      - bash
+      - -c
+      - python -m pip install -e /plugins/care_careloop && exec bash scripts/start-dev.sh
+  celery:
+    environment: *plugin_environment
+    volumes:
+      - *plugin_mount
+    entrypoint:
+      - bash
+      - -c
+      - python -m pip install -e /plugins/care_careloop && exec bash scripts/celery-dev.sh

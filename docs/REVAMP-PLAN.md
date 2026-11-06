@@ -27,16 +27,27 @@ and instrument wording load **once** at call start; only crisis handling justifi
 
 ## 1. What gets built
 
-Three artifacts, two of them installable into any CARE deployment.
+Three artifacts, two of them installable into any CARE deployment, all in **this one repo**.
 
-| Artifact | Repo | Unit | Mounted at |
+| Artifact | Path | Unit | Mounted at |
 | --- | --- | --- | --- |
-| Backend plugin | `care_careloop` | Django app (pip package) | `/api/care_careloop/` |
-| Frontend plugin | `care_careloop_fe` | Vite app, Module Federation remote | `manifest.routes` + extension points |
-| Voice agent | `care_careloop/agent/careloop.agent.yaml` | Sarvam multi-state agent spec | Sarvam workspace, versioned |
+| Backend plugin | `care_careloop/` | Django app (pip package) | `/api/care_careloop/` |
+| Frontend plugin | `care_careloop_fe/` | Vite app, Module Federation remote | `manifest.routes` + extension points |
+| Voice agent | `agent/careloop.agent.yaml` | Sarvam multi-state agent spec | Sarvam workspace, versioned |
 
-The agent spec lives **inside the backend plugin repo** because the backend is what serves its
-hooks and tools — spec and contract stay in one place and move together.
+### Why one repo rather than the scaffold's two
+
+`care_scaffold` generates each plugin as its own git root inside the workspace checkout. We keep
+both in a single repo instead, because the three artifacts are one deliverable: the agent spec
+declares the tool and hook contracts that the backend serves, and the frontend renders what the
+backend drafts. Splitting them across repos means a three-way version dance for one feature.
+
+Nothing in CARE requires two repos — `ADDITIONAL_PLUGS` and the Compose bind mount take a **path**,
+and `pip install -e <repo>/care_careloop` works with `setup.py` in that subdirectory. The read-only
+core checkouts (`care`, `care_fe`) stay in the scaffold workspace and never enter this repo.
+
+The one cost: installing straight from git needs `?subdirectory=care_careloop` on the URL rather
+than a bare repo URL. Worth knowing before publishing the plugin for someone else to install.
 
 ---
 
@@ -197,7 +208,7 @@ Two independent defects: all seven check digits are invalid, *and* the item→co
 shifted one position because the panel's total-score code (`82668-5`) was used as item 1's code.
 Medplum never validated codes, so this was invisible; CARE rejects them outright. The item prompts
 are correct — only the codes are wrong. The corrected panel is tabulated in
-`.agent/spike-results.md` and must be applied during the Phase 2 port.
+`docs/spike-results.md` and must be applied during the Phase 2 port.
 **The golden-file cross-check will not catch this**, because codes do not affect scoring — it is a
 deliberate fix, not a mechanical one. PHQ-9's 11 codes were checked the same way and are correct,
 including `44260-8` for the item-9 crisis trigger.
@@ -210,7 +221,7 @@ Observations** — no error raised. *Forces:* the virtual `Encounter` (class `vr
 prerequisite** for any coded result, not an optional nicety, so the approval transaction must create
 it before submitting. And every test must assert on the **Observation count**, never on the submit's
 status code. CARE's `callback_results` encounter priority is the apt choice for a care-gap callback.
-Full verified call sequence and field requirements are in `.agent/spike-results.md`.
+Full verified call sequence and field requirements are in `docs/spike-results.md`.
 
 ---
 
@@ -288,8 +299,9 @@ report, not something to patch around.
 2. Clone `care_scaffold` as the workspace; `python3 scripts/configure-workspace.py`;
    `source ./care-scaffold.env`; `.agent/compose.sh up -d --wait --build`; `migrate`;
    `load_fixtures`.
-3. `./scripts/new-plugin.sh --name careloop --title "CareLoop"` → independent git roots for
-   `care/care_careloop` and `care_careloop_fe`.
+3. `./scripts/new-plugin.sh --name careloop --title "CareLoop"` generates both skeletons. They
+   were then moved into **this single repo** as `care_careloop/` and `care_careloop_fe/`, with
+   their generated per-plugin git roots dropped — see §1.
 4. Install the OHC skills (`ohcnetwork/skills`) and the scaffold's nine `skills/` into
    `~/.claude/skills/`.
 5. `claude mcp add --transport http sarvam-voice-agents https://mcp.sarvam.ai/voice-agents`,
@@ -301,7 +313,7 @@ report, not something to patch around.
 | --- | --- | --- | --- |
 | V1 | Does a LOINC-coded questionnaire item validate? (C3) | **ANSWERED — split.** Terminology server is live; LOINC validates. All 11 PHQ-9 codes valid and semantically correct (incl. `44260-8` for the crisis item). **All 7 ACT codes in `asthma.ts` are invalid** — see C12 | n/a — no fallback needed; the ACT codes must simply be corrected |
 | V2 | Does questionnaire submit produce Observations with service-account provenance? (C1, C5) | **ANSWERED — pass.** 5 Observations, corrected ACT codes, `status: final`, `created_by`/`data_entered_by` from the submitter. **But only with `subject_type: "encounter"`** — see C13 | n/a — proven working |
-| V3 | Which medication concepts actually resolve in `system-medication`? (C2) | **ANSWERED — pass.** salbutamol `91143003`, budesonide `108622005`, formoterol `386171009`, sertraline `321958004`, propranolol `55745002`. Full list in `.agent/spike-results.md` | Clinician binds the product in the review UI with no pre-filled concept — the planned design anyway |
+| V3 | Which medication concepts actually resolve in `system-medication`? (C2) | **ANSWERED — pass.** salbutamol `91143003`, budesonide `108622005`, formoterol `386171009`, sertraline `321958004`, propranolol `55745002`. Full list in `docs/spike-results.md` | Clinician binds the product in the review UI with no pre-filled concept — the planned design anyway |
 | V4 | Which extension points exist in the checked-out `care_fe`? (C11) | **ANSWERED** at `care_fe@6e21fe29`: `routes`, `navItems`, `PatientHomeActions`, `PatientInfoCardActions`, `PatientSearchActions`, `EncounterActions`, `EncounterOverviewTop`, `encounterTabs`, `FacilityHomeActions` all present. **`AppShellOverlay` does not exist in this revision** — no global ambient call banner; do not plan one | Use `routes` only — it is the cheapest surface and always available |
 | V5 | Sarvam workspace readiness | `app_id`, `connection_id`, `agent_phone_number` in hand; on_start/on_end hooks and API tools available on the plan; **Bulbul V4** selectable | Web/WebSocket channel for the demo; phone as stretch |
 | V6 | Can Sarvam reach the workspace? (C8, C9) | `cloudflared`/`ngrok` tunnel to the saved `CARE_API_PORT`; a test POST from Sarvam lands on the webhook | Tunnel URLs change on restart — re-point the agent each session, and never hardcode one |
