@@ -324,10 +324,18 @@ write React against an unverified API.*
 
 Order matters: **port the tests before the implementation.**
 
-1. Freeze a **golden file**: run the current TypeScript core over a fixed answer matrix (every
-   ACT total 5–25, every PHQ-9 total 0–27, the crisis-override cases, the malformed-answer cases,
-   the spoken-number corpus) and serialise the outputs to JSON.
-2. Port the 91 vitest cases to pytest.
+1. ~~Freeze a **golden file**~~ — **DONE.** `npm run golden` → `golden/core-golden.json`,
+   **363 frozen cases**, 355 KB. Coverage verified non-trivial: all 4 asthma bands and all 6
+   depression bands, crisis override firing on exactly `phq9-9 ≥ 1` (15 of 20 rows), 21 critical
+   safety findings across allergy / duplicate-therapy / interaction, a 32-row escalation truth
+   table, and an 86-entry spoken-language corpus.
+   Two notes for the port:
+   - **Quirk to preserve, not fix:** `parseCount("-2") === 2` — the sign is stripped. Also
+     `parseCount("3.5") === 3`. The port must reproduce these; "fixing" either breaks the golden
+     check. If they should change, change them *after* the port lands, in both languages, with the
+     golden file regenerated deliberately.
+   - The golden file covers **behaviour only**, never codes — so it cannot catch C12.
+2. Port the vitest cases to pytest. **125 tests, not 91** — the README's count is stale.
 3. Port `numbers.ts` → `clinical/numbers.py`, `scoring.ts` → `scoring.py`, `safety.ts` →
    `safety.py`, `conditions/*.ts` → `clinical/modules/*.py`.
 4. Add a cross-implementation test that asserts the Python core reproduces the golden file

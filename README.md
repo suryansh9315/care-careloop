@@ -140,7 +140,7 @@ asking different questions.
 npm test
 ```
 
-91 tests over the parts where being wrong matters: band boundaries, the crisis
+125 tests over the parts where being wrong matters: band boundaries, the crisis
 override, clamping of malformed answers, spoken-number parsing ("about four
 canisters" must not score as zero), allergy/duplicate/interaction detection,
 escalation rules, 271 mapping, panel consensus aggregation, the tool dispatch

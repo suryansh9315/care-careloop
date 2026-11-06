@@ -13,6 +13,7 @@
     "start": "node dist/src/bridge/server.js",
     "seed": "tsx src/scripts/seed.ts",
     "simulate": "tsx src/scripts/simulate.ts",
+    "golden": "tsx src/scripts/golden.ts",
     "moss:index": "tsx src/scripts/moss-index.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
