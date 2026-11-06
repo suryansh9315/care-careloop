@@ -126,7 +126,8 @@ These are the things that sink a sprint on day three. Each was checked against
 `ObservationViewSet` is an `EMRModelReadOnlyViewSet`. Observations are only ever produced by
 submitting a questionnaire response. *Forces:* the instrument must be registered as a **CARE
 `Questionnaire`** with LOINC-coded items, and scores are written by
-`POST /api/v1/questionnaire/{id}/submit/`. This is more CARE-native than the Medplum version and
+`POST /api/v1/questionnaire/{slug}/submit/` — **by slug, not id** (`lookup_field = "slug"`; a UUID
+404s), and only with an encounter (C13). This is more CARE-native than the Medplum version and
 gives a `QuestionnaireResponse` → `Observation` provenance chain for free.
 
 **C2 — medications are bound to SNOMED CT, not RxNorm.**
@@ -187,7 +188,29 @@ reports a *CORS error* and you lose hours chasing the wrong thing.
 **C11 — extension points must be verified in the checked-out `care_fe`.**
 The catalog in `care-extension-points` is a snapshot. `pluginTypes.ts`
 (`SupportedPluginComponents`) in the actual revision is the only authority. A missing hook is a
-`care_scaffold` issue, never a core edit.
+`care_scaffold` issue, never a core edit. **Confirmed by spike V4:** `AppShellOverlay` is in the
+catalog and the LiveKit walkthrough but **not** in `care_fe@6e21fe2` — so no global ambient call
+banner exists. `UserProfileSections` is in the host but absent from the catalog. Stale both ways.
+
+**C12 — every ACT LOINC code in the current `asthma.ts` is wrong (found by spike V1).**
+Two independent defects: all seven check digits are invalid, *and* the item→code assignment is
+shifted one position because the panel's total-score code (`82668-5`) was used as item 1's code.
+Medplum never validated codes, so this was invisible; CARE rejects them outright. The item prompts
+are correct — only the codes are wrong. The corrected panel is tabulated in
+`.agent/spike-results.md` and must be applied during the Phase 2 port.
+**The golden-file cross-check will not catch this**, because codes do not affect scoring — it is a
+deliberate fix, not a mechanical one. PHQ-9's 11 codes were checked the same way and are correct,
+including `44260-8` for the item-9 crisis trigger.
+
+**C13 — the questionnaire must be `subject_type: "encounter"`, and it fails silently otherwise
+(found by spike V2).** In `handle_response`, a `"patient"` questionnaire forces `encounter = None`,
+and the `Observation.objects.bulk_create` is guarded by `if encounter:`. A patient-subject
+submission therefore returns **HTTP 200**, creates a `QuestionnaireResponse`, and produces **zero
+Observations** — no error raised. *Forces:* the virtual `Encounter` (class `vr`) is a **hard
+prerequisite** for any coded result, not an optional nicety, so the approval transaction must create
+it before submitting. And every test must assert on the **Observation count**, never on the submit's
+status code. CARE's `callback_results` encounter priority is the apt choice for a care-gap callback.
+Full verified call sequence and field requirements are in `.agent/spike-results.md`.
 
 ---
 
@@ -240,7 +263,8 @@ clinician acts, and the approval is a single transaction performed in *their* au
                         →  CheckInDraft
  8  review              care_careloop_fe queue; clinician sees answers, transcript,
                         score, band, safety flags, proposed therapy, and what did NOT run
- 9  approval (one txn)  ensure Encounter (class vr)
+ 9  approval (one txn)  ensure Encounter (class vr, priority callback_results)
+                        — MANDATORY: no encounter means no Observations (C13)
                         → questionnaire submit  → QuestionnaireResponse + Observations
                         → MedicationRequest(s), clinician-bound product
                         → clinical note on a NoteThread
@@ -275,10 +299,10 @@ report, not something to patch around.
 
 | # | Question | Pass criterion | Fallback if it fails |
 | --- | --- | --- | --- |
-| V1 | Does a LOINC-coded questionnaire item validate? (C3) | `POST /api/v1/questionnaire/` with an ACT item `code={system: loinc, code: …}` returns 201 | No terminology server → author items with `code: null`; the instrument result lives in the plugin table and only a summary note reaches the chart. **Downgrades the "coded record" claim — say so.** |
-| V2 | Does questionnaire submit produce Observations with service-account provenance? (C1, C5) | Submit creates `QuestionnaireResponse` + one `Observation` per item, `data_entered_by` = service account | Blocker. Report to `care_scaffold`; fall back to notes-only. |
-| V3 | Which medication concepts actually resolve in `system-medication`? (C2) | SNOMED search returns usable medicinal-product concepts for the asthma/depression step therapies | Clinician binds the product in the review UI with no pre-filled concept — the planned design anyway |
-| V4 | Which extension points exist in the checked-out `care_fe`? (C11) | `pluginTypes.ts` confirms `PatientHomeActions`, `EncounterActions`, `AppShellOverlay`, `routes`, `navItems` | Use `routes` only — it is the cheapest surface and always available |
+| V1 | Does a LOINC-coded questionnaire item validate? (C3) | **ANSWERED — split.** Terminology server is live; LOINC validates. All 11 PHQ-9 codes valid and semantically correct (incl. `44260-8` for the crisis item). **All 7 ACT codes in `asthma.ts` are invalid** — see C12 | n/a — no fallback needed; the ACT codes must simply be corrected |
+| V2 | Does questionnaire submit produce Observations with service-account provenance? (C1, C5) | **ANSWERED — pass.** 5 Observations, corrected ACT codes, `status: final`, `created_by`/`data_entered_by` from the submitter. **But only with `subject_type: "encounter"`** — see C13 | n/a — proven working |
+| V3 | Which medication concepts actually resolve in `system-medication`? (C2) | **ANSWERED — pass.** salbutamol `91143003`, budesonide `108622005`, formoterol `386171009`, sertraline `321958004`, propranolol `55745002`. Full list in `.agent/spike-results.md` | Clinician binds the product in the review UI with no pre-filled concept — the planned design anyway |
+| V4 | Which extension points exist in the checked-out `care_fe`? (C11) | **ANSWERED** at `care_fe@6e21fe29`: `routes`, `navItems`, `PatientHomeActions`, `PatientInfoCardActions`, `PatientSearchActions`, `EncounterActions`, `EncounterOverviewTop`, `encounterTabs`, `FacilityHomeActions` all present. **`AppShellOverlay` does not exist in this revision** — no global ambient call banner; do not plan one | Use `routes` only — it is the cheapest surface and always available |
 | V5 | Sarvam workspace readiness | `app_id`, `connection_id`, `agent_phone_number` in hand; on_start/on_end hooks and API tools available on the plan; **Bulbul V4** selectable | Web/WebSocket channel for the demo; phone as stretch |
 | V6 | Can Sarvam reach the workspace? (C8, C9) | `cloudflared`/`ngrok` tunnel to the saved `CARE_API_PORT`; a test POST from Sarvam lands on the webhook | Tunnel URLs change on restart — re-point the agent each session, and never hardcode one |
 
