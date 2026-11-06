@@ -329,8 +329,13 @@ plus an `AuthorizationHandler`. Models + migrations. `urls.py`, `config/` endpoi
 the client-safe subset (never the Sarvam key). Patient-context reader as a direct ORM port of
 `context.ts` (C4).
 
-**Gate 1:** `curl` returns config and a real patient's context from a fixture patient. *Do not
-write React against an unverified API.*
+**Gate 1: PASSED.** `GET /api/care_careloop/config/` returns `enabled`, capability flags
+(`calling_available`, `sarvam_configured`, `telephony_configured`) and the clinical core's module
+metadata — and **no secrets**. Five tables migrated; all three permissions registered and visible
+in `PermissionController.get_permissions()`; the `W001` credential check fires at **Warning** level,
+so `makemigrations` and `migrate` still complete (C7 confirmed working, not just intended).
+`load_patient_context` and `has_open_care_gap` verified against the real spike patient. 49 tests
+green (40 clinical + 9 plugin).
 
 ### Phase 2 — Clinical core port *(the crown jewel — port test-first)*
 
@@ -388,8 +393,18 @@ Idempotent management command that registers one CARE `Questionnaire` per condit
 LOINC-coded items, and bootstraps the **"CareLoop Voice Agent" service account** (C5). Submit path
 through CARE's own service layer, never raw ORM (C4).
 
+**The questionnaire must include a total-score question.** Found while testing the context reader
+against real CARE data: the spike patient had five ACT *item* observations and **zero** total-score
+observations, so `has_open_care_gap` correctly reported "No recorded ACT result" — meaning a
+campaign would have re-dialled that patient forever. CARE only computes a total server-side if a
+question carries a `formula`, and we deliberately score in Python instead, so the instrument
+questionnaire needs a sixth question coded `82668-5` (ACT) / `44261-6` (PHQ-9) whose answer is the
+total our core computed. Without it the care-gap detector can never see a completed check-in.
+
 **Gate 3:** a synthetic submission yields the expected `Observation` set with correct codes and
-`data_entered_by`.
+`data_entered_by`, **including the total-score observation**, and re-running the gap detector on
+that patient afterwards returns `False`. That second assertion is the one that proves the loop
+closes.
 
 ### Phase 4 — Sarvam agent, hooks, webhook
 
@@ -520,7 +535,7 @@ glibc-2.39/Ubuntu-24.04 constraint.
 | Bulbul V3 EOL **2026-11-10** | Certain | Medium | Build on **V4** from the first commit |
 | Instrument translation validity for Hindi/Indic | High if attempted | **High** | English primary; Indic only as a second version with the translation caveat stated, never claimed as validated |
 | Scope creep from the enrichment workers (research, expert panel) | Medium | Medium | Explicitly deferred. The left branch must succeed; the right branch is allowed to not exist |
-| Two-language stack confusion during the port | Low | Medium | The Node tree stays read-only as port source and is deleted at Gate 2 |
+| Two-language stack confusion during the port | Low | Medium | The Node tree stays read-only as port source and is retained for provenance |
 
 ---
 

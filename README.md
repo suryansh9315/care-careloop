@@ -27,7 +27,7 @@ safety flag blocks approval.
 | `docs/spike-results.md` | Verification spike results, including the corrected ACT LOINC panel. |
 | `docs/plugin-brief.md` | Short orientation for an agent picking this up mid-build. |
 | `workspace/` | Scaffold wiring (`plugin.compose.yaml` and `.env.example` files). Live config is gitignored. |
-| `legacy/` | The previous implementation — Medplum, Deepgram, Moss, Stedi. **Port source only; deleted at Gate 2.** |
+| `legacy/` | The previous implementation — Medplum, Deepgram, Moss, Stedi. Kept as the port source and the provenance record: it is how `core-golden.json` is regenerated and how the comparison can be re-run. |
 
 ## Architecture in one line
 
@@ -39,26 +39,31 @@ aspiration. See `docs/REVAMP-PLAN.md` §12.
 
 ## Why `legacy/` exists
 
-The deterministic clinical core is being ported from TypeScript to Python. A port is only
-trustworthy if it is provably behaviour-preserving, so `legacy/` stays runnable until the Python
-core reproduces the frozen cases exactly:
+The deterministic clinical core was ported from TypeScript to Python. A port is only trustworthy
+if it is provably behaviour-preserving, so `legacy/` stays runnable — it is the only way to
+regenerate the frozen cases and re-run the comparison:
 
 ```bash
 cd legacy && npm install && npm run golden   # regenerate the freeze
 cd legacy && npm test                        # 125 tests, the pre-port baseline
 ```
 
-It is deleted once Gate 2 passes. The history keeps it recoverable.
+It is retained deliberately. Nothing in the CARE plugins imports it, so it carries no runtime
+weight; it is kept so the port stays auditable.
 
 ## Status
 
-**Phase 2 complete.** The deterministic clinical core is ported to Python and passes 40 tests,
-including a replay of all 363 frozen cases from the TypeScript original. Phase 0 is done bar one
-item: a Sarvam telephony connection still needs Twilio credentials. Details in
-`docs/spike-results.md`.
+**Phases 1 and 2 complete.** The deterministic clinical core is ported to Python and the backend
+plugin is live inside CARE: settings, facility-scoped permissions, five migrated tables, a
+client-safe `config/` endpoint and ORM-based patient-context reads. **49 tests green**, including a
+replay of all 363 frozen cases from the TypeScript original. Phase 0 is done bar one item: a Sarvam
+telephony connection still needs Twilio credentials. Details in `docs/spike-results.md`.
 
 ```bash
-# the cross-check, from the scaffold workspace
+# from the scaffold workspace
+./.agent/compose.sh exec -T backend python manage.py test care_careloop   # all 49
+
+# the golden cross-check alone, no Django needed
 ./.agent/compose.sh exec -T backend \
   python -m unittest discover -s /plugins/care_careloop/care_careloop/clinical/tests \
                               -t /plugins/care_careloop

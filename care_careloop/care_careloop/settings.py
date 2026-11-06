@@ -88,16 +88,74 @@ class PluginSettings:  # pragma: no cover
             delattr(self, "_user_settings")
 
 
-# Credentials without which the plugin cannot function. A misconfigured deploy fails at boot.
+# Deliberately EMPTY. A non-empty REQUIRED_SETTINGS raises ImproperlyConfigured at
+# import time, which breaks `manage.py migrate` and `collectstatic` on any box without
+# credentials — CI, and the release phase of a deploy. Missing credentials are reported
+# by the Django system check in apps.py at Warning level instead, and the endpoints that
+# need them fail at request time with a clear error. See constraint C7.
 REQUIRED_SETTINGS: set[str] = set()
 
 DEFAULTS = {
     "CARELOOP_ENABLED": True,
+    # --- Sarvam Voice Agents: server-side only. Never surface these through
+    # --- config/, never log them, never let them reach the browser bundle.
+    "CARELOOP_SARVAM_API_KEY": "",
+    "CARELOOP_SARVAM_ORG_ID": "",
+    "CARELOOP_SARVAM_WORKSPACE_ID": "",
+    "CARELOOP_SARVAM_BASE_URL": "https://apps.sarvam.ai",
+    # The committed agent version is pinned per campaign, but these are the
+    # workspace defaults a new campaign starts from.
+    "CARELOOP_SARVAM_APP_ID": "",
+    "CARELOOP_SARVAM_APP_VERSION": 0,
+    # Telephony: which connection and which number the agent dials from.
+    "CARELOOP_SARVAM_CONNECTION_ID": "",
+    "CARELOOP_SARVAM_AGENT_PHONE_NUMBER": "",
+    # Public base URL Sarvam can reach, used to build on_start / on_end / webhook
+    # URLs. In local development this is a cloudflared or ngrok tunnel, so it is
+    # NOT the same as the URL the browser uses — keep them separate (C9).
+    # A tunnel hostname changes on restart; re-apply the agent config rather than
+    # hardcoding one anywhere.
+    "CARELOOP_PUBLIC_BASE_URL": "",
+    # Sarvam caps a mid-call API tool at 30s, and every second is dead air on the
+    # line. Keep our own budget well inside that.
+    "CARELOOP_TOOL_TIMEOUT_SECONDS": 8,
+    # Outbound calls to Sarvam must never hang a request thread.
+    "CARELOOP_HTTP_TIMEOUT_SECONDS": 15,
+    # The non-human principal that collected answers are attributed to, so the
+    # record never implies a clinician asked the questions (C5).
+    "CARELOOP_SERVICE_ACCOUNT_USERNAME": "careloop-agent",
+    # Care-gap cohort defaults: how stale an instrument result has to be to count
+    # as a gap, and how many dial attempts a candidate gets.
+    "CARELOOP_GAP_STALE_DAYS": 180,
+    "CARELOOP_MAX_CALL_ATTEMPTS": 3,
 }
+
 
 plugin_settings = PluginSettings(
     PLUGIN_NAME, defaults=DEFAULTS, required_settings=REQUIRED_SETTINGS
 )
+
+
+def sarvam_configured() -> bool:
+    """Whether outbound calling can actually be attempted.
+
+    Read by the system check and by `config/`, so a misconfigured deploy is
+    visible in the UI rather than failing at the first clinician's click.
+    """
+    return bool(
+        plugin_settings.CARELOOP_SARVAM_API_KEY
+        and plugin_settings.CARELOOP_SARVAM_ORG_ID
+        and plugin_settings.CARELOOP_SARVAM_WORKSPACE_ID
+    )
+
+
+def telephony_configured() -> bool:
+    """Whether a connection and a number are available to dial from."""
+    return bool(
+        plugin_settings.CARELOOP_SARVAM_CONNECTION_ID
+        and plugin_settings.CARELOOP_SARVAM_AGENT_PHONE_NUMBER
+    )
+
 
 
 @receiver(setting_changed)
