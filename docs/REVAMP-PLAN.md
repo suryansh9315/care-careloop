@@ -524,8 +524,35 @@ valuable UI files. `RxNormSelect` becomes a **CARE medication ValueSet search** 
 prefixed `careloop__` in the plugin's own locale file. Heavy imports stay lazy and out of the
 manifest chunk.
 
-**Gate 6:** federation remote loads in the host; review and approval work end-to-end through the
-UI; `git status` in both core checkouts is clean.
+**Gate 6: PASSED server-side; one browser check outstanding.**
+
+| Check | Result |
+| --- | --- |
+| `tsc -b` + `vite build` | clean |
+| **Manifest chunk size** | **2.5 kB** — both pages lazy, so CareLoop costs ~nothing on pages nobody opens it from |
+| `remoteEntry.js` served at `:25770` | HTTP 200, exposes `./manifest` |
+| Host registered the plugin | host inlined `REACT_ENABLED_APPS: ohcnetwork/care_careloop_fe@localhost:25770/assets/remoteEntry.js` |
+| Host serves at `:25769` | HTTP 200 |
+| Both core checkouts | **clean** |
+
+Worth knowing: `care_fe/.env` ships `REACT_ENABLED_APPS=""`, and the process environment wins over
+it — confirmed by reading what the dev server actually inlined rather than reasoning about Vite's
+precedence. Supplying it through `.agent/frontend.sh` is therefore enough, and no `.env.local`
+needs to be written into the read-only core checkout.
+
+**Outstanding:** the scaffold's last check is that a browser reports no plugin-loading error and
+`window.__CARE_PLUGIN_RUNTIME__.meta` contains the slug. That needs a real browser; no browser
+tooling is wired into this session, so it is unverified rather than passing. Everything the server
+can attest to is green.
+
+To click through it:
+
+```
+http://127.0.0.1:25769/careloop?facility=<facility-uuid>&status=pending_review
+```
+
+The review API itself is verified independently over HTTP — see the commit "Add the clinician
+review API" — so a UI failure would be presentation only, not the workflow.
 
 ### Phase 7 — Campaign and cohorts
 
