@@ -59,9 +59,16 @@ questionnaires, and the approval transaction writes coded observations, a medica
 clinical note — or refuses and writes nothing. **76 tests green**, including a replay of all 363
 frozen cases from the TypeScript original.
 
-Remaining: Phase 4 (the Sarvam agent, hooks and webhook) and Phase 6 (the `care_fe` review UI).
-Phase 4's real call is blocked on one item — a Sarvam telephony connection needs Twilio
-credentials. Details in `docs/spike-results.md`.
+**95 tests green.** The call path works without a phone:
+
+```bash
+manage.py careloop_demo_call --module depression --scenario crisis
+```
+
+That posts a payload shaped exactly like Sarvam's post-call webhook at the real webhook view, so
+the whole pipeline runs — nonce check, parsing, scoring, safety screen, draft. Remaining: a live
+call (needs a Sarvam telephony connection) and Phase 6, the `care_fe` review UI. Details in
+`docs/spike-results.md`.
 
 ```bash
 # from the scaffold workspace

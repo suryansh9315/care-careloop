@@ -436,8 +436,44 @@ Endpoints: `on_start` (context + verbatim instrument text), `on_end`, `raise_cri
 nonce-guarded `webhook` (C8: `authentication_classes = []`, idempotent, 200 on unknown). Allowlist
 Sarvam's IPs (C9).
 
-**Gate 4:** one real test call, placed from Sarvam through the tunnel, produces a `CheckInDraft`
-with the right band — and a *second* delivery of the same webhook changes nothing.
+**Gate 4: PASSED except the live call**, which is blocked on a Sarvam telephony connection
+(Twilio credentials). Everything up to the phone works and is verified:
+
+`manage.py careloop_demo_call` posts a payload shaped exactly like Sarvam's documented post-call
+webhook **at the real webhook view**, so the nonce check, variable parsing, clinical core, safety
+screen and draft build all run as they would on a live call. Only the telephony is absent.
+
+```
+asthma/poor      score 13 — Poorly controlled | escalated True | proposals 3
+                 risks [frequent-exacerbations critical, reliever-overuse critical]
+                 concerns ['I get breathless on the stairs', 'My inhaler runs out quickly']
+                 replay 200, drafts for this attempt: 1 (idempotent)
+
+depression/crisis score 10 — Crisis pathway | crisis True | proposals 0
+                 risks [prior-attempt critical, self-harm-item critical]
+```
+
+The depression run is the one to look at: PHQ-9 total 10 would band as `moderate`, but item 9
+diverted it to **Crisis pathway** and **zero medication proposals** were drafted. No antidepressant
+from a phone call.
+
+Endpoint behaviour, all confirmed against the live stack:
+
+| Case | Result |
+| --- | --- |
+| `on_start` valid nonce | 22 variables, question text verbatim, emergency rules included |
+| `on_start` unknown or missing nonce | `{"variables": {}}` — **no chart is read** |
+| `raise_crisis_flag` | records to `CallAttempt.meta`, returns `transfer_to_human` and the exact words to say |
+| `raise_crisis_flag` unknown nonce | **still returns safe words** — a live disclosure must not hinge on our bookkeeping |
+| webhook bad nonce | `200 {"detail": "ok"}` — ignored, so no retry storm |
+| webhook replayed | ignored; still exactly one draft |
+
+Pinned by `tests/test_agent_io.py` (24 tests). The one worth naming: the agent's own
+`crisis_flagged` variable is **advisory only** — a test asserts that an agent which forgets to set
+it cannot suppress the crisis pathway, because our scoring of item 9 is authoritative.
+
+**Still outstanding for a live call:** a telephony connection, a tunnel, and applying
+`agent/careloop.agent.yaml` to the workspace via the MCP server.
 
 ### Phase 5 — Approval transaction
 
