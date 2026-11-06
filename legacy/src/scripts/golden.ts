@@ -279,7 +279,9 @@ for (const module of MODULES) {
       });
       rows.push({
         label: `band=${band} context=${context.label}`,
-        regimen: regimen.map((m) => m.display),
+        // Full MedOrders, not just displays: a golden file has to carry
+        // complete inputs, or the port has to guess how they were built.
+        regimen: JSON.parse(JSON.stringify(regimen)),
         context: { allergies: context.allergies, currentMedications: context.currentMedications },
         findings,
         hasCritical: hasCritical(findings),
@@ -369,9 +371,30 @@ const golden = {
   cases: { bandSweep, malformed, crisis, risk, safety, escalation, numbers },
 };
 
-const out = resolve(process.cwd(), 'golden/core-golden.json');
+/**
+ * JSON cannot represent NaN or +/-Infinity -- `JSON.stringify` writes `null` for
+ * all three. That would be a silent fidelity hole: the frozen *inputs* for the
+ * non-finite malformed cases would read back as `null`, so the Python port
+ * would replay a different input than the one that was frozen. Tag them
+ * instead, and have the port decode the tags back to real float values.
+ */
+function tagNonFinite(_key: string, value: unknown): unknown {
+  if (typeof value === 'number' && !Number.isFinite(value)) {
+    if (Number.isNaN(value)) return '@NaN';
+    return value > 0 ? '@Infinity' : '@-Infinity';
+  }
+  return value;
+}
+
+// Lives inside the plugin package: it is the fixture that guards the Python
+// core, the plugin ships self-contained, and the backend container mounts only
+// the plugin directory.
+const out = resolve(
+  process.cwd(),
+  '../care_careloop/care_careloop/clinical/tests/data/core-golden.json',
+);
 mkdirSync(dirname(out), { recursive: true });
-writeFileSync(out, `${JSON.stringify(golden, null, 2)}\n`);
+writeFileSync(out, `${JSON.stringify(golden, tagNonFinite, 2)}\n`);
 
 const counts = {
   bandSweep: Object.values(bandSweep).reduce((n, r) => n + r.length, 0),

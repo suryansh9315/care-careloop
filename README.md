@@ -22,7 +22,7 @@ safety flag blocks approval.
 | `care_careloop/` | **Backend plugin** — Django app, pip-installed into CARE, mounted at `/api/care_careloop/`. Owns the care-gap cohorts, the Sarvam hooks and webhook, the deterministic clinical core, drafts and the approval transaction. |
 | `care_careloop_fe/` | **Frontend plugin** — Vite app loaded into `care_fe` at runtime via Module Federation. The clinician review queue and campaign console. |
 | `agent/` | The **Sarvam voice agent spec** — source of truth for the agent, applied to the workspace via Sarvam's MCP server and pinned per campaign by committed version. |
-| `golden/core-golden.json` | 363 frozen input/output cases for the deterministic core. The Python port must reproduce this exactly. |
+| `care_careloop/care_careloop/clinical/tests/data/core-golden.json` | 363 frozen input/output cases for the deterministic core. The Python port reproduces this exactly; it ships with the plugin so the proof is re-runnable. |
 | `docs/REVAMP-PLAN.md` | The plan: locked decisions, thirteen constraints verified against CARE and Sarvam source, phase gates. **Read this first.** |
 | `docs/spike-results.md` | Verification spike results, including the corrected ACT LOINC panel. |
 | `docs/plugin-brief.md` | Short orientation for an agent picking this up mid-build. |
@@ -41,7 +41,7 @@ aspiration. See `docs/REVAMP-PLAN.md` §12.
 
 The deterministic clinical core is being ported from TypeScript to Python. A port is only
 trustworthy if it is provably behaviour-preserving, so `legacy/` stays runnable until the Python
-core reproduces `golden/core-golden.json` byte for byte:
+core reproduces the frozen cases exactly:
 
 ```bash
 cd legacy && npm install && npm run golden   # regenerate the freeze
@@ -52,7 +52,14 @@ It is deleted once Gate 2 passes. The history keeps it recoverable.
 
 ## Status
 
-Phase 0 complete: workspace bootstrapped, plugin skeletons generated, and four of six verification
-spikes answered — two of which found real defects. Phase 2 step 1 complete: the core is frozen.
-Remaining blocker is a Sarvam telephony connection (Twilio credentials). Details in
+**Phase 2 complete.** The deterministic clinical core is ported to Python and passes 40 tests,
+including a replay of all 363 frozen cases from the TypeScript original. Phase 0 is done bar one
+item: a Sarvam telephony connection still needs Twilio credentials. Details in
 `docs/spike-results.md`.
+
+```bash
+# the cross-check, from the scaffold workspace
+./.agent/compose.sh exec -T backend \
+  python -m unittest discover -s /plugins/care_careloop/care_careloop/clinical/tests \
+                              -t /plugins/care_careloop
+```

@@ -1,0 +1,308 @@
+{
+  "id": "asthma",
+  "display": "Asthma",
+  "icd10": "J45.909",
+  "snomed": "195967001",
+  "instrument": {
+    "id": "act",
+    "name": "Asthma Control Test (ACT)",
+    "loinc_panel_code": "82674-3",
+    "loinc_total_code": "82668-5",
+    "min_total": 5,
+    "max_total": 25,
+    "direction": "higher-is-better",
+    "items": [
+      {
+        "link_id": "act-1",
+        "loinc_code": "82669-3",
+        "prompt": "In the past 4 weeks, how much of the time did your asthma keep you from getting as much done at work, school or at home?",
+        "min": 1,
+        "max": 5,
+        "scale_hint": "1 = all of the time, 2 = most of the time, 3 = some of the time, 4 = a little of the time, 5 = none of the time"
+      },
+      {
+        "link_id": "act-2",
+        "loinc_code": "82670-1",
+        "prompt": "During the past 4 weeks, how often have you had shortness of breath?",
+        "min": 1,
+        "max": 5,
+        "scale_hint": "1 = more than once a day, 2 = once a day, 3 = three to six times a week, 4 = once or twice a week, 5 = not at all"
+      },
+      {
+        "link_id": "act-3",
+        "loinc_code": "82671-9",
+        "prompt": "During the past 4 weeks, how often did your asthma symptoms wake you up at night or earlier than usual in the morning?",
+        "min": 1,
+        "max": 5,
+        "scale_hint": "1 = four or more nights a week, 2 = two or three nights a week, 3 = once a week, 4 = once or twice in the four weeks, 5 = not at all"
+      },
+      {
+        "link_id": "act-4",
+        "loinc_code": "82672-7",
+        "prompt": "During the past 4 weeks, how often have you used your rescue inhaler or nebulizer medication?",
+        "min": 1,
+        "max": 5,
+        "scale_hint": "1 = three or more times per day, 2 = one or two times per day, 3 = two or three times per week, 4 = once a week or less, 5 = not at all"
+      },
+      {
+        "link_id": "act-5",
+        "loinc_code": "82673-5",
+        "prompt": "How would you rate your asthma control during the past 4 weeks?",
+        "min": 1,
+        "max": 5,
+        "scale_hint": "1 = not controlled at all, 2 = poorly controlled, 3 = somewhat controlled, 4 = well controlled, 5 = completely controlled"
+      }
+    ]
+  },
+  "bands": [
+    {
+      "id": "very-poor",
+      "label": "Very poorly controlled",
+      "min": 5,
+      "max": 10
+    },
+    {
+      "id": "poor",
+      "label": "Poorly controlled",
+      "min": 11,
+      "max": 15
+    },
+    {
+      "id": "partial",
+      "label": "Not well controlled",
+      "min": 16,
+      "max": 19
+    },
+    {
+      "id": "controlled",
+      "label": "Well controlled",
+      "min": 20,
+      "max": 25
+    }
+  ],
+  "risk_questions": [
+    {
+      "link_id": "risk-exacerbations",
+      "prompt": "In the last twelve months, how many times have you needed a course of steroid tablets for your asthma?",
+      "expects": "count"
+    },
+    {
+      "link_id": "risk-reliever-canisters",
+      "prompt": "Roughly how many rescue inhaler canisters have you gone through in the last year?",
+      "expects": "count"
+    },
+    {
+      "link_id": "risk-hospitalisation",
+      "prompt": "Have you ever been admitted to hospital or intensive care because of your asthma?",
+      "expects": "yes-no"
+    }
+  ],
+  "steps": {
+    "controlled": {
+      "id": "controlled",
+      "summary": "Well controlled on current therapy. Continue as-needed ICS-formoterol reliever therapy; reinforce technique and adherence; no step-up indicated.",
+      "patient_goal": "Keep your asthma as settled as it is now, and keep your reliever use low.",
+      "medications": [
+        {
+          "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+          "rxnorm_code": "745752",
+          "role": "controller",
+          "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+          "route": "inhalation",
+          "frequency": "BID + PRN",
+          "prn": false,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "budesonide",
+            "formoterol"
+          ]
+        }
+      ],
+      "follow_up_days": 180,
+      "referral_required": false,
+      "urgent": false
+    },
+    "partial": {
+      "id": "partial",
+      "summary": "Not well controlled. Step up to low-dose ICS-formoterol maintenance-and-reliever therapy (MART) after confirming inhaler technique and adherence.",
+      "patient_goal": "Get to the point where asthma is not waking you at night or limiting your day.",
+      "medications": [
+        {
+          "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+          "rxnorm_code": "745752",
+          "role": "controller",
+          "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+          "route": "inhalation",
+          "frequency": "BID + PRN",
+          "prn": false,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "budesonide",
+            "formoterol"
+          ]
+        },
+        {
+          "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+          "rxnorm_code": "745679",
+          "role": "reliever",
+          "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+          "route": "inhalation",
+          "frequency": "Q4-6H",
+          "prn": true,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "albuterol"
+          ]
+        }
+      ],
+      "follow_up_days": 42,
+      "referral_required": false,
+      "urgent": false
+    },
+    "poor": {
+      "id": "poor",
+      "summary": "Poorly controlled. Step up to medium-dose ICS-formoterol MART with a short oral corticosteroid course to regain control, review technique, adherence and trigger exposure, and arrange earlier clinical review.",
+      "patient_goal": "Bring symptoms down so you can sleep through the night and get through a normal day.",
+      "medications": [
+        {
+          "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+          "rxnorm_code": "745750",
+          "role": "controller",
+          "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+          "route": "inhalation",
+          "frequency": "BID + PRN",
+          "prn": false,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "budesonide",
+            "formoterol"
+          ]
+        },
+        {
+          "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+          "rxnorm_code": "745679",
+          "role": "reliever",
+          "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+          "route": "inhalation",
+          "frequency": "Q4-6H",
+          "prn": true,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "albuterol"
+          ]
+        },
+        {
+          "display": "Prednisone 20 mg oral tablet",
+          "rxnorm_code": "312615",
+          "role": "adjunct",
+          "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+          "route": "oral",
+          "frequency": "daily",
+          "prn": false,
+          "duration_days": 5,
+          "quantity": 10,
+          "refills": 0,
+          "ingredients": [
+            "prednisone"
+          ]
+        }
+      ],
+      "follow_up_days": 21,
+      "referral_required": false,
+      "urgent": false
+    },
+    "very-poor": {
+      "id": "very-poor",
+      "summary": "Very poorly controlled. Medium-dose ICS-formoterol MART plus a short oral corticosteroid course, urgent clinician contact, and respiratory specialist referral.",
+      "patient_goal": "Get your breathing stable quickly and have a clinician review you within the next few days.",
+      "medications": [
+        {
+          "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+          "rxnorm_code": "745750",
+          "role": "controller",
+          "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+          "route": "inhalation",
+          "frequency": "BID + PRN",
+          "prn": false,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "budesonide",
+            "formoterol"
+          ]
+        },
+        {
+          "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+          "rxnorm_code": "745679",
+          "role": "reliever",
+          "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+          "route": "inhalation",
+          "frequency": "Q4-6H",
+          "prn": true,
+          "duration_days": 90,
+          "quantity": 1,
+          "refills": 2,
+          "ingredients": [
+            "albuterol"
+          ]
+        },
+        {
+          "display": "Prednisone 20 mg oral tablet",
+          "rxnorm_code": "312615",
+          "role": "adjunct",
+          "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+          "route": "oral",
+          "frequency": "daily",
+          "prn": false,
+          "duration_days": 5,
+          "quantity": 10,
+          "refills": 0,
+          "ingredients": [
+            "prednisone"
+          ]
+        }
+      ],
+      "follow_up_days": 7,
+      "referral_required": true,
+      "urgent": true
+    }
+  },
+  "emergency_rules": [
+    "Red flags of a severe attack happening NOW: can only speak a few words at a time, breathless at rest, reliever not helping or needed every 1-2 hours, chest pain with breathlessness, blue lips or fingertips, drowsiness or confusion. If you hear any of these, stop the questionnaire and say ONCE: \"This sounds like it could be an emergency. Please hang up, use your reliever, and call 911 right now.\" Then end the call — do not continue the questions."
+  ],
+  "crisis_band_id": null,
+  "experts": [
+    {
+      "id": "respiratory",
+      "name": "Respiratory physician",
+      "specialty": "Respiratory medicine",
+      "safety_reviewer": false,
+      "system_prompt": "You are a consultant respiratory physician reviewing an automatically drafted asthma plan before a human clinician sees it. Judge whether the step-up choice matches the ACT band and reported risk factors under current GINA-style stepwise care. Be concise and specific. Return JSON only."
+    },
+    {
+      "id": "pharmacist",
+      "name": "Clinical pharmacist",
+      "specialty": "Pharmacy",
+      "safety_reviewer": false,
+      "system_prompt": "You are a clinical pharmacist reviewing a drafted asthma regimen. Check dose, device, duplicate therapy, PRN limits, quantity and refills for internal consistency and practicality. Return JSON only."
+    },
+    {
+      "id": "safety",
+      "name": "Medication safety reviewer",
+      "specialty": "Medication safety",
+      "safety_reviewer": true,
+      "system_prompt": "You are a medication safety reviewer. Your only job is to flag anything that could harm this patient: allergy conflicts, contraindications, overlapping beta-agonists, oral steroid risk, or an under-treated high-risk phenotype. Raise \"concern\" if there is any real safety issue. Return JSON only."
+    }
+  ]
+}

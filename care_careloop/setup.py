@@ -13,6 +13,8 @@ requirements = [
     "djangorestframework",
     "django-environ",
     "django-filter",
+    # The clinical core models its data with pydantic, as CARE does throughout.
+    "pydantic>=2",
 ]
 
 setup(
@@ -27,7 +29,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.13",
     ],
-    description="CareLoop plugin for CARE",
+    description="CareLoop: care-gap outbound voice campaigns for CARE",
     install_requires=requirements,
     license="MIT license",
     long_description=readme,
@@ -36,7 +38,7 @@ setup(
     keywords="care_careloop",
     name="care_careloop",
     packages=find_packages(include=["care_careloop", "care_careloop.*"]),
-    url="https://github.com/ohcnetwork/care_careloop",
+    url="https://github.com/suryansh9315/care-careloop",
     version="0.1.0",
     zip_safe=False,
 )

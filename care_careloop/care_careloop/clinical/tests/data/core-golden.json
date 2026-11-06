@@ -4569,23 +4569,23 @@
           "answers": [
             {
               "linkId": "act-1",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "act-2",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "act-3",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "act-4",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "act-5",
-              "value": null
+              "value": "@NaN"
             }
           ],
           "score": {
@@ -4662,23 +4662,23 @@
           "answers": [
             {
               "linkId": "act-1",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "act-2",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "act-3",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "act-4",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "act-5",
-              "value": null
+              "value": "@Infinity"
             }
           ],
           "score": {
@@ -4755,23 +4755,23 @@
           "answers": [
             {
               "linkId": "act-1",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "act-2",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "act-3",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "act-4",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "act-5",
-              "value": null
+              "value": "@-Infinity"
             }
           ],
           "score": {
@@ -5945,39 +5945,39 @@
           "answers": [
             {
               "linkId": "phq9-1",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-2",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-3",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-4",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-5",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-6",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-7",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-8",
-              "value": null
+              "value": "@NaN"
             },
             {
               "linkId": "phq9-9",
-              "value": null
+              "value": "@NaN"
             }
           ],
           "score": {
@@ -6007,39 +6007,39 @@
           "answers": [
             {
               "linkId": "phq9-1",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-2",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-3",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-4",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-5",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-6",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-7",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-8",
-              "value": null
+              "value": "@Infinity"
             },
             {
               "linkId": "phq9-9",
-              "value": null
+              "value": "@Infinity"
             }
           ],
           "score": {
@@ -6069,39 +6069,39 @@
           "answers": [
             {
               "linkId": "phq9-1",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-2",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-3",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-4",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-5",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-6",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-7",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-8",
-              "value": null
+              "value": "@-Infinity"
             },
             {
               "linkId": "phq9-9",
-              "value": null
+              "value": "@-Infinity"
             }
           ],
           "score": {
@@ -10133,9 +10133,52 @@
         {
           "label": "band=very-poor context=empty",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10147,9 +10190,52 @@
         {
           "label": "band=very-poor context=allergy-to-first-ingredient",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10170,9 +10256,52 @@
         {
           "label": "band=very-poor context=allergy-uppercase",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10193,9 +10322,52 @@
         {
           "label": "band=very-poor context=allergy-unrelated",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10209,9 +10381,52 @@
         {
           "label": "band=very-poor context=duplicate-therapy",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10239,9 +10454,52 @@
         {
           "label": "band=very-poor context=on-propranolol",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10267,9 +10525,52 @@
         {
           "label": "band=very-poor context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10316,9 +10617,52 @@
         {
           "label": "band=poor context=empty",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10330,9 +10674,52 @@
         {
           "label": "band=poor context=allergy-to-first-ingredient",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10353,9 +10740,52 @@
         {
           "label": "band=poor context=allergy-uppercase",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10376,9 +10806,52 @@
         {
           "label": "band=poor context=allergy-unrelated",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10392,9 +10865,52 @@
         {
           "label": "band=poor context=duplicate-therapy",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10422,9 +10938,52 @@
         {
           "label": "band=poor context=on-propranolol",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10450,9 +11009,52 @@
         {
           "label": "band=poor context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler",
-            "Prednisone 20 mg oral tablet"
+            {
+              "display": "Budesonide 160 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745750",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            },
+            {
+              "display": "Prednisone 20 mg oral tablet",
+              "rxnormCode": "312615",
+              "role": "adjunct",
+              "sig": "Take 2 tablets (40 mg) by mouth once daily for 5 days",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 5,
+              "quantity": 10,
+              "refills": 0,
+              "ingredients": [
+                "prednisone"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10499,8 +11101,37 @@
         {
           "label": "band=partial context=empty",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10512,8 +11143,37 @@
         {
           "label": "band=partial context=allergy-to-first-ingredient",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10534,8 +11194,37 @@
         {
           "label": "band=partial context=allergy-uppercase",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10556,8 +11245,37 @@
         {
           "label": "band=partial context=allergy-unrelated",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10571,8 +11289,37 @@
         {
           "label": "band=partial context=duplicate-therapy",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10600,8 +11347,37 @@
         {
           "label": "band=partial context=on-propranolol",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10627,8 +11403,37 @@
         {
           "label": "band=partial context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
-            "Albuterol sulfate 90 mcg/actuation inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            },
+            {
+              "display": "Albuterol sulfate 90 mcg/actuation inhaler",
+              "rxnormCode": "745679",
+              "role": "reliever",
+              "sig": "Inhale 2 puffs every 4-6 hours as needed for shortness of breath or wheeze",
+              "route": "inhalation",
+              "frequency": "Q4-6H",
+              "prn": true,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "albuterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10675,7 +11480,22 @@
         {
           "label": "band=controlled context=empty",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10687,7 +11507,22 @@
         {
           "label": "band=controlled context=allergy-to-first-ingredient",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10708,7 +11543,22 @@
         {
           "label": "band=controlled context=allergy-uppercase",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10729,7 +11579,22 @@
         {
           "label": "band=controlled context=allergy-unrelated",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -10743,7 +11608,22 @@
         {
           "label": "band=controlled context=duplicate-therapy",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10771,7 +11651,22 @@
         {
           "label": "band=controlled context=on-propranolol",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -10797,7 +11692,22 @@
         {
           "label": "band=controlled context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Budesonide 80 mcg / formoterol 4.5 mcg inhaler"
+            {
+              "display": "Budesonide 80 mcg / formoterol 4.5 mcg inhaler",
+              "rxnormCode": "745752",
+              "role": "controller",
+              "sig": "Inhale 2 puffs twice daily, plus 1 puff as needed for symptoms (max 12 puffs/day)",
+              "route": "inhalation",
+              "frequency": "BID + PRN",
+              "prn": false,
+              "durationDays": 90,
+              "quantity": 1,
+              "refills": 2,
+              "ingredients": [
+                "budesonide",
+                "formoterol"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11142,7 +12052,21 @@
         {
           "label": "band=moderate context=empty",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11154,7 +12078,21 @@
         {
           "label": "band=moderate context=allergy-to-first-ingredient",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11175,7 +12113,21 @@
         {
           "label": "band=moderate context=allergy-uppercase",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11196,7 +12148,21 @@
         {
           "label": "band=moderate context=allergy-unrelated",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11210,7 +12176,21 @@
         {
           "label": "band=moderate context=duplicate-therapy",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11237,7 +12217,21 @@
         {
           "label": "band=moderate context=on-propranolol",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11256,7 +12250,21 @@
         {
           "label": "band=moderate context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Sertraline 25 mg oral tablet"
+            {
+              "display": "Sertraline 25 mg oral tablet",
+              "rxnormCode": "312938",
+              "role": "primary",
+              "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11296,7 +12304,21 @@
         {
           "label": "band=moderately-severe context=empty",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11308,7 +12330,21 @@
         {
           "label": "band=moderately-severe context=allergy-to-first-ingredient",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11329,7 +12365,21 @@
         {
           "label": "band=moderately-severe context=allergy-uppercase",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11350,7 +12400,21 @@
         {
           "label": "band=moderately-severe context=allergy-unrelated",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11364,7 +12428,21 @@
         {
           "label": "band=moderately-severe context=duplicate-therapy",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11391,7 +12469,21 @@
         {
           "label": "band=moderately-severe context=on-propranolol",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11410,7 +12502,21 @@
         {
           "label": "band=moderately-severe context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11450,7 +12556,21 @@
         {
           "label": "band=severe context=empty",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11462,7 +12582,21 @@
         {
           "label": "band=severe context=allergy-to-first-ingredient",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11483,7 +12617,21 @@
         {
           "label": "band=severe context=allergy-uppercase",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11504,7 +12652,21 @@
         {
           "label": "band=severe context=allergy-unrelated",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [
@@ -11518,7 +12680,21 @@
         {
           "label": "band=severe context=duplicate-therapy",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11545,7 +12721,21 @@
         {
           "label": "band=severe context=on-propranolol",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [],
@@ -11564,7 +12754,21 @@
         {
           "label": "band=severe context=allergy-and-duplicate-and-interaction",
           "regimen": [
-            "Sertraline 50 mg oral tablet"
+            {
+              "display": "Sertraline 50 mg oral tablet",
+              "rxnormCode": "312940",
+              "role": "primary",
+              "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+              "route": "oral",
+              "frequency": "daily",
+              "prn": false,
+              "durationDays": 30,
+              "quantity": 30,
+              "refills": 2,
+              "ingredients": [
+                "sertraline"
+              ]
+            }
           ],
           "context": {
             "allergies": [

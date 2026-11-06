@@ -1,5 +1,15 @@
 include LICENSE
 include README.md
 
+# Condition module definitions are *runtime* data, not fixtures: the clinical
+# core loads modules/<id>.json on import. Without this they are absent from any
+# built wheel and the plugin fails on first use.
+recursive-include care_careloop/clinical/modules *.json
+
+# The golden cross-check fixture ships too. It is what proves the Python core
+# reproduces the TypeScript implementation it was ported from, so anyone who
+# installs the plugin can re-run that proof.
+recursive-include care_careloop/clinical/tests/data *.json
+
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

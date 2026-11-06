@@ -336,7 +336,7 @@ write React against an unverified API.*
 
 Order matters: **port the tests before the implementation.**
 
-1. ~~Freeze a **golden file**~~ — **DONE.** `npm run golden` → `golden/core-golden.json`,
+1. ~~Freeze a **golden file**~~ — **DONE.** `cd legacy && npm run golden` → `care_careloop/care_careloop/clinical/tests/data/core-golden.json`,
    **363 frozen cases**, 355 KB. Coverage verified non-trivial: all 4 asthma bands and all 6
    depression bands, crisis override firing on exactly `phq9-9 ≥ 1` (15 of 20 rows), 21 critical
    safety findings across allergy / duplicate-therapy / interaction, a 32-row escalation truth
@@ -347,16 +347,40 @@ Order matters: **port the tests before the implementation.**
      check. If they should change, change them *after* the port lands, in both languages, with the
      golden file regenerated deliberately.
    - The golden file covers **behaviour only**, never codes — so it cannot catch C12.
-2. Port the vitest cases to pytest. **125 tests, not 91** — the README's count is stale.
-3. Port `numbers.ts` → `clinical/numbers.py`, `scoring.ts` → `scoring.py`, `safety.ts` →
-   `safety.py`, `conditions/*.ts` → `clinical/modules/*.py`.
-4. Add a cross-implementation test that asserts the Python core reproduces the golden file
-   **exactly**.
+2. ~~Port the tests~~ — **DONE**, as **stdlib `unittest`, not pytest**. The CARE backend image
+   does not ship pytest, and the clinical core should be testable without adding a dependency to
+   it. `unittest.subTest` gives per-case failure output, so nothing was lost.
+3. ~~Port the core~~ — **DONE.** `clinical/{numbers,scoring,safety}.py`, `clinical/models.py`,
+   `clinical/modules/{asthma,depression}.py`.
+   **The data/logic split is the thing worth knowing:** a `ConditionModule` is mostly clinical
+   *data* (items, bands, protocol steps, prompts, medication orders) and only a little *code*
+   (`risk_rules`, `crisis_override`). Retyping ~600 lines of clinical data into Python would
+   introduce exactly the class of silent error that C12 already is, so the data is
+   **machine-exported** to `clinical/modules/<id>.json` by `legacy/src/scripts/export-modules.ts`,
+   which applies the seven ACT code corrections with an explicit, auditable old→new map and fails
+   if any of them stops matching. Only the two hooks are hand-written.
+4. ~~Cross-implementation test~~ — **DONE.** `clinical/tests/test_golden.py`.
 
-That golden-file check is what makes the port provably faithful rather than probably faithful.
+**Gate 2: PASSED.** 40 tests green; all 363 frozen cases replay exactly.
 
-**Gate 2:** pytest green, golden file matches byte-for-byte, band boundaries and the PHQ-9 item-9
-crisis override covered.
+Three things the cross-check caught that would otherwise have shipped silently:
+
+- **`Math.round` vs `round`.** JavaScript rounds half up; Python uses banker's rounding, so
+  `round(2.5) == 2` where `Math.round(2.5) === 3`. Five ACT answers of 2.5 total 15 in the frozen
+  output and would have totalled 10. Hence `scoring.js_round`.
+- **`NaN` and `±Infinity` cannot be expressed in JSON.** `JSON.stringify` wrote `null` for all
+  three, so the non-finite malformed cases would have been *replayed as `None`* — a different input
+  path than the one frozen. The generator now tags them and the test decodes the tags.
+- **The golden file only held medication display names** for safety cases, which would have forced
+  the test to reconstruct inputs by mirroring generator logic. It now carries full `MedOrder`s: a
+  golden file has to hold complete inputs or the port is guessing.
+
+The suite was **mutation-tested** rather than trusted: swapping `js_round` for `round` produced 2
+failures, and changing a single em-dash in one finding message produced 7. A golden test that
+passes vacuously is worse than none.
+
+Codes are covered separately in `clinical/tests/test_modules.py`, since the golden file is blind to
+them by design — which is how C12 survived in the original.
 
 ### Phase 3 — Questionnaire registration and provenance
 

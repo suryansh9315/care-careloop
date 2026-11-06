@@ -1,0 +1,276 @@
+{
+  "id": "depression",
+  "display": "Major depressive disorder",
+  "icd10": "F32.9",
+  "snomed": "370143000",
+  "instrument": {
+    "id": "phq9",
+    "name": "Patient Health Questionnaire-9 (PHQ-9)",
+    "loinc_panel_code": "44249-1",
+    "loinc_total_code": "44261-6",
+    "min_total": 0,
+    "max_total": 27,
+    "direction": "higher-is-worse",
+    "items": [
+      {
+        "link_id": "phq9-1",
+        "loinc_code": "44250-9",
+        "prompt": "Over the last 2 weeks, how often have you had little interest or pleasure in doing things?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 1 several days, 2 more than half the days, 3 nearly every day"
+      },
+      {
+        "link_id": "phq9-2",
+        "loinc_code": "44255-8",
+        "prompt": "Over the last 2 weeks, how often have you been feeling down, depressed, or hopeless?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-3",
+        "loinc_code": "44259-0",
+        "prompt": "How often have you had trouble falling or staying asleep, or sleeping too much?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-4",
+        "loinc_code": "44254-1",
+        "prompt": "How often have you been feeling tired or having little energy?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-5",
+        "loinc_code": "44251-7",
+        "prompt": "How often have you had a poor appetite or been overeating?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-6",
+        "loinc_code": "44258-2",
+        "prompt": "How often have you been feeling bad about yourself, or that you are a failure, or have let yourself or your family down?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-7",
+        "loinc_code": "44252-5",
+        "prompt": "How often have you had trouble concentrating on things, such as reading or watching television?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-8",
+        "loinc_code": "44253-3",
+        "prompt": "How often have you been moving or speaking so slowly that other people could have noticed, or been so restless that you have been moving around a lot more than usual?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      },
+      {
+        "link_id": "phq9-9",
+        "loinc_code": "44260-8",
+        "prompt": "Over the last 2 weeks, how often have you had thoughts that you would be better off dead, or of hurting yourself in some way?",
+        "min": 0,
+        "max": 3,
+        "scale_hint": "0 means not at all, 3 means nearly every day"
+      }
+    ]
+  },
+  "bands": [
+    {
+      "id": "minimal",
+      "label": "Minimal",
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": "mild",
+      "label": "Mild",
+      "min": 5,
+      "max": 9
+    },
+    {
+      "id": "moderate",
+      "label": "Moderate",
+      "min": 10,
+      "max": 14
+    },
+    {
+      "id": "moderately-severe",
+      "label": "Moderately severe",
+      "min": 15,
+      "max": 19
+    },
+    {
+      "id": "severe",
+      "label": "Severe",
+      "min": 20,
+      "max": 27
+    }
+  ],
+  "risk_questions": [
+    {
+      "link_id": "risk-prior-attempt",
+      "prompt": "Have you ever made an attempt to end your life?",
+      "expects": "yes-no"
+    },
+    {
+      "link_id": "risk-support",
+      "prompt": "Is there someone in your day-to-day life you can talk to when things get hard?",
+      "expects": "yes-no"
+    },
+    {
+      "link_id": "risk-substance",
+      "prompt": "Has your drinking or use of any other substance increased recently?",
+      "expects": "yes-no"
+    },
+    {
+      "link_id": "risk-prior-treatment",
+      "prompt": "Have you taken medication for your mood before?",
+      "expects": "yes-no"
+    }
+  ],
+  "steps": {
+    "minimal": {
+      "id": "minimal",
+      "summary": "Minimal symptoms. No pharmacotherapy indicated. Reinforce sleep, activity and social contact; re-screen at the next routine contact.",
+      "patient_goal": "Keep doing what is working, and know what to watch for if things change.",
+      "medications": [],
+      "follow_up_days": 180,
+      "referral_required": false,
+      "urgent": false
+    },
+    "mild": {
+      "id": "mild",
+      "summary": "Mild symptoms. First-line is structured self-help or behavioural activation rather than medication. Re-score in six weeks.",
+      "patient_goal": "Rebuild a bit of routine and activity, and see whether that shifts things over six weeks.",
+      "medications": [],
+      "follow_up_days": 42,
+      "referral_required": false,
+      "urgent": false
+    },
+    "moderate": {
+      "id": "moderate",
+      "summary": "Moderate symptoms. Offer an SSRI and/or structured psychological therapy. Start sertraline at a low dose and titrate. Review in two weeks for early tolerability.",
+      "patient_goal": "Start treatment and check in within two weeks on how you are tolerating it.",
+      "medications": [
+        {
+          "display": "Sertraline 25 mg oral tablet",
+          "rxnorm_code": "312938",
+          "role": "primary",
+          "sig": "Take 1 tablet (25 mg) by mouth once daily for 7 days, then increase to 50 mg daily",
+          "route": "oral",
+          "frequency": "daily",
+          "prn": false,
+          "duration_days": 30,
+          "quantity": 30,
+          "refills": 2,
+          "ingredients": [
+            "sertraline"
+          ]
+        }
+      ],
+      "follow_up_days": 14,
+      "referral_required": false,
+      "urgent": false
+    },
+    "moderately-severe": {
+      "id": "moderately-severe",
+      "summary": "Moderately severe symptoms. Combined SSRI and psychological therapy is preferred. Refer for therapy and review in two weeks.",
+      "patient_goal": "Start medication, get you into talking therapy, and review closely over the next fortnight.",
+      "medications": [
+        {
+          "display": "Sertraline 50 mg oral tablet",
+          "rxnorm_code": "312940",
+          "role": "primary",
+          "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+          "route": "oral",
+          "frequency": "daily",
+          "prn": false,
+          "duration_days": 30,
+          "quantity": 30,
+          "refills": 2,
+          "ingredients": [
+            "sertraline"
+          ]
+        }
+      ],
+      "follow_up_days": 14,
+      "referral_required": true,
+      "urgent": false
+    },
+    "severe": {
+      "id": "severe",
+      "summary": "Severe symptoms. Combined pharmacotherapy and therapy with prompt clinician contact and mental-health referral. Review within one week.",
+      "patient_goal": "Get you started on treatment and speaking to a clinician within the next few days.",
+      "medications": [
+        {
+          "display": "Sertraline 50 mg oral tablet",
+          "rxnorm_code": "312940",
+          "role": "primary",
+          "sig": "Take 1 tablet (50 mg) by mouth once daily in the morning",
+          "route": "oral",
+          "frequency": "daily",
+          "prn": false,
+          "duration_days": 30,
+          "quantity": 30,
+          "refills": 2,
+          "ingredients": [
+            "sertraline"
+          ]
+        }
+      ],
+      "follow_up_days": 7,
+      "referral_required": true,
+      "urgent": true
+    },
+    "crisis": {
+      "id": "crisis",
+      "summary": "Self-harm item endorsed. Crisis pathway: same-day clinician contact and risk assessment before any medication decision is finalised. Protocol does not select an antidepressant in this state.",
+      "patient_goal": "Get you speaking to someone today, and make sure you have crisis numbers to hand.",
+      "medications": [],
+      "follow_up_days": 1,
+      "referral_required": true,
+      "urgent": true
+    }
+  },
+  "emergency_rules": [
+    "If the patient says they are thinking about ending their life, have a plan, or are in immediate danger, stop the questionnaire immediately. Tell them you are glad they said it, that help is available right now, and that they should call or text 988 (the Suicide and Crisis Lifeline in the US) or 111 in the UK, or go to the nearest emergency department. Stay warm and unhurried, do not diagnose, and end the call only after giving those numbers.",
+    "If item 9 is answered above zero at any point, complete the remaining questions gently if the patient is willing, then say clearly that a clinician will contact them today, and give the 988 number before the call ends.",
+    "Never tell the patient a medication will be started. All treatment is a draft for a clinician to review."
+  ],
+  "crisis_band_id": "crisis",
+  "experts": [
+    {
+      "id": "psychiatrist",
+      "name": "Consultant psychiatrist",
+      "specialty": "Psychiatry",
+      "safety_reviewer": false,
+      "system_prompt": "You are a consultant psychiatrist reviewing an automatically drafted depression plan before a human clinician sees it. Judge whether the treatment intensity matches the PHQ-9 band, the crisis state, and the reported risk factors. Be concise and specific. Return JSON only."
+    },
+    {
+      "id": "pharmacist",
+      "name": "Clinical pharmacist",
+      "specialty": "Pharmacy",
+      "safety_reviewer": false,
+      "system_prompt": "You are a clinical pharmacist reviewing a drafted antidepressant regimen. Check starting dose, titration, duration, interactions with the recorded current medications, and monitoring requirements. Return JSON only."
+    },
+    {
+      "id": "safety",
+      "name": "Risk and safety reviewer",
+      "specialty": "Clinical risk",
+      "safety_reviewer": true,
+      "system_prompt": "You are a clinical risk reviewer for a mental-health service. Your only job is to flag anything unsafe: unaddressed suicidality, a plan that is too light for the risk profile, missing crisis instructions, or an interaction. Raise \"concern\" if there is any real safety issue. Return JSON only."
+    }
+  ]
+}
