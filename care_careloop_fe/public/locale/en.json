@@ -1,5 +1,65 @@
 {
   "careloop__page_title": "CareLoop",
-  "careloop__action_label": "Open CareLoop",
-  "careloop__loading": "Loading…"
+  "careloop__loading": "Loading…",
+  "careloop__searching": "Searching CARE's medication terminology…",
+
+  "careloop__queue_title": "Check-in review queue",
+  "careloop__queue_subtitle": "Drafts from pre-visit voice check-ins. Nothing here is in a patient's chart until you approve it.",
+  "careloop__queue_empty": "No drafts in this state.",
+  "careloop__queue_footer": "Sorted by urgency, not arrival time: crisis first, then unacknowledged critical findings, then escalations.",
+
+  "careloop__status": "Status",
+  "careloop__status_pending": "Pending review",
+  "careloop__status_approved": "Approved",
+  "careloop__status_rejected": "Rejected",
+
+  "careloop__crisis": "Crisis pathway",
+  "careloop__needs_acknowledgement": "Needs acknowledgement",
+  "careloop__escalated": "Escalated",
+
+  "careloop__back_to_queue": "Back to the queue",
+  "careloop__not_yet_in_chart": "Nothing on this page is in the patient's chart yet. Approving writes the observations, any accepted medication and a clinical note in one step.",
+
+  "careloop__crisis_banner_title": "Crisis pathway applied",
+  "careloop__crisis_banner_body": "The patient answered the self-harm item above zero. The numeric band was overridden and no medication has been drafted.",
+
+  "careloop__findings": "Findings",
+  "careloop__acknowledge_critical": "Acknowledge the critical finding",
+  "careloop__acknowledged": "Critical finding acknowledged.",
+
+  "careloop__answers": "Answers as collected",
+  "careloop__concerns": "In the patient's own words",
+
+  "careloop__proposed_therapy": "Proposed therapy",
+  "careloop__no_medication": "This protocol step drafts no medication. Review is still required.",
+  "careloop__follow_up": "Follow-up in about {{days}} days",
+  "careloop__prn": "as needed",
+  "careloop__accept": "Accept",
+  "careloop__accepted": "Accepted",
+  "careloop__bind_placeholder": "Search CARE for the product to prescribe…",
+  "careloop__unbound_warning": "Accepted, but no product is chosen yet. This will be skipped on approval — the protocol proposes a therapeutic step, and you choose the product.",
+
+  "careloop__transcript": "Call transcript",
+
+  "careloop__decision": "Decision",
+  "careloop__approve": "Approve and write to the chart",
+  "careloop__blocked_hint": "Acknowledge the critical finding before approving.",
+  "careloop__reject_reason_label": "Reason for rejecting (required)",
+  "careloop__reject": "Reject",
+  "careloop__approved_by": "Approved by {{who}}.",
+  "careloop__rejected_because": "Rejected: {{reason}}",
+
+  "careloop__written_to_chart": "Written to the chart",
+  "careloop__written_encounter": "A virtual encounter for this check-in.",
+  "careloop__written_observations": "Coded observations for each answer and the total score.",
+  "careloop__written_medications": "{{count}} medication request, as a draft proposal rather than an active order.",
+  "careloop__written_note": "A clinical note recording your review.",
+  "careloop__written_skipped": "Not written, because no product was chosen: {{list}}",
+
+  "careloop__provenance": "Agent {{app}} version {{version}} · interaction {{interaction}}",
+
+  "careloop__patient_action_pending": "{{count}} CareLoop check-in awaiting review",
+  "careloop__patient_action_latest": "Last CareLoop check-in: {{band}} ({{score}})",
+
+  "careloop__action_label": "Open CareLoop"
 }

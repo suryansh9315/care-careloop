@@ -1,3 +1,14 @@
+import type {
+  ApprovalResult,
+  CareloopConfig,
+  DraftDetail,
+  DraftListItem,
+  DraftStatus,
+  MedicationProposal,
+  Paginated,
+  ValueSetConcept,
+} from "@/types";
+
 const STAFF_TOKEN_KEY = "care_access_token";
 const PATIENT_TOKEN_KEY = "care_patient_token";
 const BASE_PATH = "/api/care_careloop";
@@ -97,6 +108,85 @@ export async function request<T>(
   return data as T;
 }
 
+/**
+ * Calls CARE core rather than this plugin. Used for the medication ValueSet
+ * search, so the clinician binds a real SNOMED product from CARE's own
+ * terminology rather than anything this plugin invented (constraint C2).
+ */
+async function coreRequest<T>(
+  endpoint: string,
+  method: Method = "GET",
+  body?: unknown,
+): Promise<T> {
+  const token = getAuthToken();
+  const response = await fetch(`${window.CARE_API_URL}/api/v1${endpoint}`, {
+    method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : null;
+  if (!response.ok) {
+    throw new ApiError(
+      response.status,
+      data,
+      readErrorMessage(response.status, data),
+    );
+  }
+  return data as T;
+}
+
 export const API = {
-  config: () => request<{ enabled: boolean }>(`${scope()}/config/`),
+  config: () => request<CareloopConfig>(`${scope()}/config/`),
+
+  drafts: {
+    /** The queue. A facility is required: a reviewer looks at one on purpose. */
+    list: (facility: string, status?: DraftStatus) =>
+      request<Paginated<DraftListItem>>(`/drafts/`, "GET", undefined, {
+        facility,
+        status,
+      }),
+
+    get: (id: string) => request<DraftDetail>(`/drafts/${id}/`),
+
+    acknowledgeCritical: (id: string) =>
+      request<DraftDetail>(`/drafts/${id}/acknowledge_critical/`, "POST", {}),
+
+    updateProposal: (
+      id: string,
+      proposalId: string,
+      body: {
+        accepted?: boolean;
+        snomed_code?: string;
+        snomed_display?: string;
+      },
+    ) =>
+      request<MedicationProposal>(
+        `/drafts/${id}/proposals/${proposalId}/`,
+        "PATCH",
+        body,
+      ),
+
+    approve: (id: string, acknowledgeCritical = false) =>
+      request<DraftDetail & { written: ApprovalResult }>(
+        `/drafts/${id}/approve/`,
+        "POST",
+        { acknowledge_critical: acknowledgeCritical },
+      ),
+
+    reject: (id: string, reason: string) =>
+      request<DraftDetail>(`/drafts/${id}/reject/`, "POST", { reason }),
+  },
+
+  /** CARE's own medication terminology, not ours. */
+  medicationSearch: (search: string) =>
+    coreRequest<{ results: ValueSetConcept[] }>(
+      `/valueset/system-medication/expand/`,
+      "POST",
+      { search, count: 10 },
+    ),
 };
