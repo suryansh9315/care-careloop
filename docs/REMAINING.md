@@ -51,6 +51,25 @@ number from Sarvam avoids it but needs KYC.
 | Browser check that `window.__CARE_PLUGIN_RUNTIME__.meta` carries the plugin slug | No browser tooling in the session that built this. Everything the server can attest to is green: build clean, 2.5 kB manifest chunk, `remoteEntry.js` served, host inlined `REACT_ENABLED_APPS`. Open `http://127.0.0.1:25769/careloop?facility=<uuid>` and check the console. |
 | Four commits authored as `suryansh@Suryanshs-MacBook-Air.local` | `426ba8d`, `0398d96`, `83ecd1c`, `a711ac5`. Git was auto-deriving the email from the hostname and the hostname changed. Already pushed, so rewriting is a decision, not a cleanup. |
 
+### Trap worth knowing: `npm install` dirties the `care_fe` lockfile
+
+Running `npm install` in the host checkout rewrites three unicode escapes in its
+`package-lock.json` (`\u2764` → `❤`). Cosmetic, but it is a **tracked** change in a read-only core
+checkout, which breaks the prime directive. It happened once and was restored with:
+
+```bash
+git -C care_fe checkout -- package-lock.json
+```
+
+`node_modules/` is gitignored, so restoring the lockfile does not undo the install and the host
+keeps running. Check both checkouts before claiming zero core changes:
+
+```bash
+for d in care care_fe; do
+  printf "%-8s %s\n" "$d" "$([ -z "$(git -C $d status --porcelain)" ] && echo CLEAN || echo DIRTY)"
+done
+```
+
 ---
 
 ## 3. Real gaps in what was built
