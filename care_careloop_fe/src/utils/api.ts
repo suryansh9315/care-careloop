@@ -6,6 +6,7 @@ import type {
   DraftStatus,
   MedicationProposal,
   Paginated,
+  StartCallResult,
   ValueSetConcept,
 } from "@/types";
 
@@ -181,6 +182,22 @@ export const API = {
     reject: (id: string, reason: string) =>
       request<DraftDetail>(`/drafts/${id}/reject/`, "POST", { reason }),
   },
+
+  /**
+   * Start a check-in call for one patient, now. Mirrors the previous
+   * implementation's trigger rather than a scheduled campaign: a clinician
+   * decides who gets called.
+   *
+   * The destination number is NOT sent — the backend reads it from the
+   * patient's record, so this endpoint cannot be used to dial an arbitrary
+   * number.
+   */
+  startCall: (facility: string, patient: string, moduleId: string) =>
+    request<StartCallResult>(`/calls/`, "POST", {
+      facility,
+      patient,
+      module_id: moduleId,
+    }),
 
   /** CARE's own medication terminology, not ours. */
   medicationSearch: (search: string) =>

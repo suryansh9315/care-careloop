@@ -37,6 +37,33 @@ Vite federation remote owns the clinician UI; **Sarvam Voice Agents** runs the c
 Both CARE repositories stay **completely unmodified** — that is an acceptance criterion, not an
 aspiration. See `docs/REVAMP-PLAN.md` §12.
 
+## Limitations — read these
+
+This is a hackathon prototype on synthetic data. The honest caveats, not the ones
+that sound best:
+
+- **Verbatim delivery of the instrument is no longer guaranteed.** The previous
+  implementation spoke each ACT/PHQ-9 item itself, so the wording was certain. A managed voice
+  platform speaks every turn through an LLM. The wording is supplied verbatim, the temperature is
+  low, and the eval suite asserts it — but this is now a probabilistic guarantee where it used to
+  be a hard one. That is a real regression in clinical validity.
+- **Instrument translation is not validated.** ACT and PHQ-9 in any Indic language need validated
+  translations. Running them in a language other than English would make this a prototype of an
+  instrument, not the instrument. English only, deliberately.
+- **No medication is prescribed.** The protocol proposes a therapeutic step; a clinician binds the
+  product from CARE's SNOMED-backed ValueSet, and what is written is a `draft` / `proposal`, not an
+  active order. An accepted proposal with no bound product is skipped rather than guessed at.
+- **Scores are computed, not interpreted.** Banding and the safety screen are pure functions of the
+  recorded answers. Nothing in this system diagnoses, and the agent never states a score.
+- **Eligibility and coverage checks are gone**, deliberately: the previous 270/271 path was US payer
+  EDI with no analogue here, and CARE has no `Coverage` resource.
+- **Patient context crosses a trust boundary** into a third-party voice platform. It carries a first
+  name and clinical context and nothing else — but field minimisation, tenant authorisation and read
+  auditing all need real work before any deployment.
+- **Synthetic data only.** Every patient, call and draft in this repo's demos is fabricated.
+- **CareLoop does not diagnose, prescribe, guarantee payment, or replace emergency care.** Clinical
+  use would need validation plus security and privacy review well beyond a prototype.
+
 ## Why `legacy/` exists
 
 The deterministic clinical core was ported from TypeScript to Python. A port is only trustworthy

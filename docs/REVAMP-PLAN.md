@@ -678,17 +678,17 @@ Carried forward, revised, and newly introduced — all of them belong in the sub
 
 ## 12. Acceptance checklist
 
-- [ ] `git status` in `care` and `care_fe` is clean — **zero core changes**
-- [ ] Backend mounts at `/api/care_careloop/`; frontend loads as a federation remote
-- [ ] Plugin permissions registered at import time; credential check is `Warning` level
-- [ ] Sarvam API key exists only in backend settings — never in `config/`, logs, or the bundle
-- [ ] Webhook: `authentication_classes = []`, nonce-verified, idempotent, 200 on unknown
-- [ ] Golden-file test proves the Python core matches the TypeScript original exactly
-- [ ] Observations carry LOINC codes and service-account provenance (or the fallback is documented)
-- [ ] Nothing reaches the patient chart before clinician approval
-- [ ] An unacknowledged critical safety flag blocks approval
-- [ ] Approval is one transaction — all five artifacts or none
-- [ ] Every `CallAttempt` pins `app_id`, `app_version`, `attempt_id`, `interaction_id`
-- [ ] Sarvam eval suite green on the pinned agent version, including the item-9 crisis case
-- [ ] Phone-free demo path works (synthetic webhook → pipeline → draft → approval)
-- [ ] README states every limitation in §11
+- [x] `git status` in `care` and `care_fe` is clean — **zero core changes**
+- [x] Backend mounts at `/api/care_careloop/`; frontend loads as a federation remote
+- [x] Plugin permissions registered at import time; credential check is `Warning` level
+- [x] Sarvam API key exists only in backend settings — never in `config/`, logs, or the bundle
+- [x] Webhook: `authentication_classes = []`, nonce-verified, idempotent, 200 on unknown
+- [x] Golden-file test proves the Python core matches the TypeScript original exactly
+- [x] Observations carry LOINC codes and service-account provenance (or the fallback is documented)
+- [x] Nothing reaches the patient chart before clinician approval
+- [x] An unacknowledged critical safety flag blocks approval
+- [x] Approval is one transaction — all five artifacts or none
+- [x] Every `CallAttempt` pins `app_id`, `app_version`, `attempt_id`, `interaction_id`
+- [ ] Sarvam eval suite green on the pinned agent version, including the item-9 crisis case — **written in `agent/careloop.agent.yaml`, not yet applied or run (needs the workspace)**
+- [x] Phone-free demo path works (synthetic webhook → pipeline → draft → approval)
+- [x] README states every limitation in §11

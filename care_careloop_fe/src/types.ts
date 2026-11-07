@@ -143,3 +143,12 @@ export interface ValueSetConcept {
   display: string;
   system: string;
 }
+
+export interface StartCallResult {
+  attempt: string;
+  sarvam_attempt_id: string;
+  module_id: string;
+  gap_open: boolean;
+  gap_reason: string;
+  attempt_count: number;
+}

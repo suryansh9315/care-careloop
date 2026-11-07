@@ -13,6 +13,7 @@ Give Sarvam this exact path when configuring an agent:
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
+from care_careloop.viewsets.calls import StartCallView
 from care_careloop.viewsets.config import ConfigView
 from care_careloop.viewsets.review import CheckInDraftViewSet
 from care_careloop.viewsets.hooks import (
@@ -28,6 +29,7 @@ router.register("drafts", CheckInDraftViewSet, basename="careloop-draft")
 urlpatterns = [
     *router.urls,
     path("config/", ConfigView.as_view(), name="care_careloop-config"),
+    path("calls/", StartCallView.as_view(), name="care_careloop-start-call"),
     path(
         "sarvam/on_start/", OnStartView.as_view(), name="care_careloop-sarvam-on-start"
     ),
