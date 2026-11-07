@@ -19,11 +19,12 @@ safety flag blocks approval.
 
 | Path | What it is |
 | --- | --- |
-| `care_careloop/` | **Backend plugin** — Django app, pip-installed into CARE, mounted at `/api/care_careloop/`. Owns the care-gap cohorts, the Sarvam hooks and webhook, the deterministic clinical core, drafts and the approval transaction. |
-| `care_careloop_fe/` | **Frontend plugin** — Vite app loaded into `care_fe` at runtime via Module Federation. The clinician review queue and campaign console. |
+| `care_careloop/` | **Backend plugin** — Django app, pip-installed into CARE, mounted at `/api/care_careloop/`. Owns the Sarvam hooks and webhook, the deterministic clinical core, drafts and the approval transaction. |
+| `care_careloop_fe/` | **Frontend plugin** — Vite app loaded into `care_fe` at runtime via Module Federation. The clinician review queue, draft review and the patient-page call action. |
 | `agent/` | The **Sarvam voice agent spec** — source of truth for the agent, applied to the workspace via Sarvam's MCP server and pinned per campaign by committed version. |
 | `care_careloop/care_careloop/clinical/tests/data/core-golden.json` | 363 frozen input/output cases for the deterministic core. The Python port reproduces this exactly; it ships with the plugin so the proof is re-runnable. |
 | `docs/REVAMP-PLAN.md` | The plan: locked decisions, thirteen constraints verified against CARE and Sarvam source, phase gates. **Read this first.** |
+| `docs/REMAINING.md` | **What is still outstanding**, what is blocked on credentials, and what is deliberately out of scope. |
 | `docs/spike-results.md` | Verification spike results, including the corrected ACT LOINC panel. |
 | `docs/plugin-brief.md` | Short orientation for an agent picking this up mid-build. |
 | `workspace/` | Scaffold wiring (`plugin.compose.yaml` and `.env.example` files). Live config is gitignored. |
@@ -80,28 +81,35 @@ weight; it is kept so the port stays auditable.
 
 ## Status
 
-**The whole backend clinical path works.** Phases 1, 2, 3 and 5 are complete: the deterministic
-core is ported to Python, the plugin is live inside CARE, the instruments are registered as CARE
-questionnaires, and the approval transaction writes coded observations, a medication proposal and a
-clinical note — or refuses and writes nothing. **76 tests green**, including a replay of all 363
-frozen cases from the TypeScript original.
+**Everything works end to end except the phone.** All six phases are through their gates and
+**95 tests pass**, including a replay of all 363 frozen cases from the TypeScript implementation
+this was ported from.
 
-**95 tests green.** The call path works without a phone:
+What is outstanding, and what is deliberately out of scope, is in
+**[`docs/REMAINING.md`](docs/REMAINING.md)**. The short version: a Sarvam telephony connection
+(needs Twilio credentials) unblocks the live call and the agent eval suite, which is the last
+unticked acceptance item.
+
+Run the whole thing without a phone:
 
 ```bash
-manage.py careloop_demo_call --module depression --scenario crisis
+# from the care_scaffold workspace
+./.agent/compose.sh exec -T backend python manage.py careloop_setup --facility <uuid>
+./.agent/compose.sh exec -T backend python manage.py careloop_demo_call \
+    --module depression --scenario crisis
 ```
 
-That posts a payload shaped exactly like Sarvam's post-call webhook at the real webhook view, so
-the whole pipeline runs — nonce check, parsing, scoring, safety screen, draft. Remaining: a live
-call (needs a Sarvam telephony connection) and Phase 6, the `care_fe` review UI. Details in
-`docs/spike-results.md`.
+That posts a payload shaped exactly like Sarvam's post-call webhook at the **real** webhook view, so
+the nonce check, variable parsing, clinical core, safety screen and draft build all run as they
+would on a live call. The crisis scenario is the one to look at: PHQ-9 total 10 would band as
+*moderate*, but item 9 diverts it to the crisis pathway with **zero** medication proposals.
+
+Tests:
 
 ```bash
-# from the scaffold workspace
-./.agent/compose.sh exec -T backend python manage.py test care_careloop   # all 49
+./.agent/compose.sh exec -T backend python manage.py test care_careloop        # all 95
 
-# the golden cross-check alone, no Django needed
+# the golden cross-check alone — no Django needed
 ./.agent/compose.sh exec -T backend \
   python -m unittest discover -s /plugins/care_careloop/care_careloop/clinical/tests \
                               -t /plugins/care_careloop
